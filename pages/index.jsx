@@ -100,11 +100,12 @@ export default function Leaderboard() {
 
   return (
     <div
-      className={`font-sans min-h-screen px-4 py-8 transition-colors duration-300 ${darkMode ? "bg-gradient-to-b from-black via-zinc-900 to-black text-white" : "bg-white text-black"}`}
+      className={`font-sans min-h-screen px-4 py-8 transition-colors duration-300 ${darkMode ? "bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-800 text-white" : "bg-white text-black"}`}
     >
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold tracking-wide">🎧 Audius Leaderboard - {season}</h1>
+          <h1 className="text-3xl font-bold tracking-wide">🎷 Audius Leaderboard - {season}
+          </h1>
           <div className="flex items-center gap-2">
             <span className="text-sm">Light</span>
             <Switch checked={darkMode} onCheckedChange={() => setDarkMode(!darkMode)} />
@@ -119,7 +120,9 @@ export default function Leaderboard() {
             >
               <SelectValue placeholder="Season" />
             </SelectTrigger>
-            <SelectContent className={`absolute z-50 mt-1 rounded shadow-lg border ${darkMode ? "bg-black text-white border-white/10" : "bg-white text-black border-black/10"}`}>
+            <SelectContent
+              className={`absolute z-50 mt-1 rounded shadow-lg border ${darkMode ? "bg-black text-white border-white/10" : "bg-white text-black border-black/10"}`}
+            >
               <SelectItem value="S1">Season 1</SelectItem>
               <SelectItem value="S2">Season 2</SelectItem>
             </SelectContent>
@@ -128,52 +131,58 @@ export default function Leaderboard() {
 
         <ScrollArea className="h-[70vh]">
           <div className="space-y-4">
-            {mounted && leaderboardData.map((artist, idx) => (
-              <Card
-                key={artist.rank}
-                className="border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 transform hover:scale-[1.01] hover:border-purple-500/40 hover:shadow-lg"
-                style={{ animation: `fadeInUp 0.3s ease ${idx * 0.05}s forwards`, opacity: 0 }}
-              >
-                <CardContent className="flex items-center justify-between p-4">
-                  <div className="flex items-center gap-4">
-                    <div className="text-xl font-bold w-6 text-right">{artist.rank}</div>
-                    <Avatar>
-                      <AvatarFallback>{artist.artist.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <div className="text-lg font-semibold">
-                        <a
-                          href={`https://audius.co/${artist.handle}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hover:underline"
-                        >
-                          {artist.artist}
-                        </a>
-                      </div>
-                      <div className="text-muted-foreground text-sm leading-tight">@{artist.handle}</div>
-                      {artist.accolades && (
-                        <div className="mt-1 flex flex-wrap gap-1">
-                          {artist.accolades.map((acc, idx) => (
-                            <span
-                              key={idx}
-                              className="text-sm px-2 py-0.5 rounded bg-purple-600/10 text-purple-400 border border-purple-400/20"
-                            >
-                              {acc}
-                            </span>
-                          ))}
+            {mounted &&
+              leaderboardData.map((artist, idx) => (
+                <Card
+                  key={artist.rank}
+                  className="border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 transform hover:scale-[1.01] hover:border-purple-500/40 hover:shadow-lg"
+                  style={{
+                    animation: `fadeInUp 0.3s ease ${idx * 0.05}s forwards`,
+                    opacity: 0,
+                  }}
+                >
+                  <CardContent className="flex items-center justify-between p-4">
+                    <div className="flex items-center gap-4">
+                      <div className="text-xl font-bold w-6 text-right">{artist.rank}</div>
+                      <Avatar>
+                        <AvatarFallback>{artist.artist.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <div className="text-lg font-semibold">
+                          <a
+                            href={`https://audius.co/${artist.handle}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:underline"
+                          >
+                            {artist.artist}
+                          </a>
                         </div>
+                        <div className="text-muted-foreground text-sm leading-tight">
+                          @{artist.handle}
+                        </div>
+                        {artist.accolades && (
+                          <div className="mt-1 flex flex-wrap gap-1">
+                            {artist.accolades.map((acc, idx) => (
+                              <span
+                                key={idx}
+                                className="text-sm px-2 py-0.5 rounded bg-purple-600/10 text-purple-400 border border-purple-400/20 hover:bg-purple-600/20 transition-colors"
+                              >
+                                {acc}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {artist.top5 > 0 && (
+                        <Badge variant="default">🔥 {artist.top5}x Top 5</Badge>
                       )}
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {artist.top5 > 0 && (
-                      <Badge variant="default">🔥 {artist.top5}x Top 5</Badge>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              ))}
           </div>
         </ScrollArea>
       </div>
