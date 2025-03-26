@@ -4,6 +4,8 @@ import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { ScrollArea } from "../components/ui/scroll-area";
 import { Switch } from "../components/ui/switch";
+import { getProfileImageUrl } from "../lib/getProfileImage";
+
 import { Avatar, AvatarFallback } from "../components/ui/avatar";
 import {
   Select,
@@ -143,12 +145,21 @@ export default function Leaderboard() {
                       {artist.rank}
                     </div>
                     <Avatar>
-                      <AvatarFallback>
-                        <div className="w-full h-full flex items-center justify-center bg-gray-500 text-white rounded-full text-sm">
-                          {artist.artist.charAt(0)}
-                        </div>
-                      </AvatarFallback>
-                    </Avatar>
+  <img
+    src={getProfileImageUrl(artist.handle)}
+    alt={artist.artist}
+    className="w-full h-full rounded-full object-cover"
+    onError={(e) => {
+      e.target.style.display = "none";
+    }}
+  />
+  <AvatarFallback>
+    <div className="w-full h-full flex items-center justify-center bg-gray-500 text-white rounded-full text-sm">
+      {artist.artist.charAt(0)}
+    </div>
+  </AvatarFallback>
+</Avatar>
+
                     <div>
                       <div className="text-lg font-semibold">
                         <a
