@@ -133,10 +133,8 @@ export default function Leaderboard() {
       
         <div className="flex items-center gap-2">
           <span className="text-sm">Light</span>
-          <Switch
-            checked={darkMode}
-            onCheckedChange={() => setDarkMode(!darkMode)}
-          />
+          <Switch checked={darkMode} onCheckedChange={(val) => setDarkMode(val)} />
+
           <span className="text-sm">Dark</span>
         </div>
       </div>
