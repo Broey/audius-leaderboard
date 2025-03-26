@@ -103,19 +103,19 @@ export default function Leaderboard() {
       className={`max-w-4xl mx-auto px-4 sm:px-6 py-6 transition-colors duration-300 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
     >
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-        <div className="mb-4 sm:mb-0">
-          <Select value={season} onValueChange={(val) => setSeason(val)}>
-            <SelectTrigger
-              className={`w-32 ${darkMode ? "bg-black text-white border-white/20" : "bg-white text-black border-black/20"}`}
-            >
-              <SelectValue placeholder="Season" />
-            </SelectTrigger>
-            <SelectContent className={`${darkMode ? "bg-black text-white" : "bg-white text-black"} z-50`}>
-              <SelectItem value="S1">Season 1</SelectItem>
-              <SelectItem value="S2">Season 2</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+       <div className="mb-4 sm:mb-0 relative z-10">
+  <Select value={season} onValueChange={(val) => setSeason(val)}>
+    <SelectTrigger
+      className={`w-32 ${darkMode ? "bg-black text-white border-white/20" : "bg-white text-black border-black/20"}`}
+    >
+      <SelectValue placeholder="Season" />
+    </SelectTrigger>
+    <SelectContent className={`${darkMode ? "bg-black text-white" : "bg-white text-black"} z-50`}>
+      <SelectItem value="S1">Season 1</SelectItem>
+      <SelectItem value="S2">Season 2</SelectItem>
+    </SelectContent>
+  </Select>
+</div>
         <h1 className="text-3xl font-bold text-center w-full sm:w-auto">
           🎷 Audius Leaderboard - {season}
         </h1>
