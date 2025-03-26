@@ -1,6 +1,6 @@
 // pages/index.jsx
 import { useState, useEffect } from "react";
-import { Card, CardContent } from "../components/ui/card";
+import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { ScrollArea } from "../components/ui/scroll-area";
 import { Switch } from "../components/ui/switch";
@@ -138,7 +138,7 @@ export default function Leaderboard() {
                 key={artist.rank}
                 className="border border-white/10 hover:shadow-lg hover:scale-[1.01] transition-transform duration-200"
               >
-                <CardContent className="flex items-center justify-between p-4">
+                <div className="flex items-center justify-between p-4">
                   <div className="flex items-center gap-4">
                     <div className="text-xl font-bold w-6 text-right">
                       {artist.rank}
