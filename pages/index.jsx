@@ -1,5 +1,5 @@
 // pages/index.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { ScrollArea } from "../components/ui/scroll-area";
@@ -92,10 +92,15 @@ const leaderboardData = [
 export default function Leaderboard() {
   const [darkMode, setDarkMode] = useState(true);
   const [season, setSeason] = useState("S1");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <div
-      className={`font-sans min-h-screen px-4 py-8 transition-colors duration-300 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
+      className={`font-sans min-h-screen px-4 py-8 transition-colors duration-300 ${darkMode ? "bg-gradient-to-b from-black via-zinc-900 to-black text-white" : "bg-white text-black"}`}
     >
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
@@ -123,8 +128,12 @@ export default function Leaderboard() {
 
         <ScrollArea className="h-[70vh]">
           <div className="space-y-4">
-            {leaderboardData.map((artist) => (
-              <Card key={artist.rank} className="border border-white/10 bg-white/5 backdrop-blur-sm">
+            {mounted && leaderboardData.map((artist, idx) => (
+              <Card
+                key={artist.rank}
+                className="border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 transform hover:scale-[1.01] hover:border-purple-500/40 hover:shadow-lg"
+                style={{ animation: `fadeInUp 0.3s ease ${idx * 0.05}s forwards`, opacity: 0 }}
+              >
                 <CardContent className="flex items-center justify-between p-4">
                   <div className="flex items-center gap-4">
                     <div className="text-xl font-bold w-6 text-right">{artist.rank}</div>
@@ -168,6 +177,19 @@ export default function Leaderboard() {
           </div>
         </ScrollArea>
       </div>
+
+      <style jsx global>{`
+        @keyframes fadeInUp {
+          0% {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 }
