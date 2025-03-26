@@ -1,10 +1,73 @@
+// Placeholder UI components for deployment
+
+// components/ui/card.jsx
+export function Card({ children, className = "" }) {
+  return <div className={`rounded-lg shadow border ${className}`}>{children}</div>;
+}
+export function CardContent({ children, className = "" }) {
+  return <div className={`p-4 ${className}`}>{children}</div>;
+}
+
+// components/ui/badge.jsx
+export function Badge({ children, variant = "default" }) {
+  return (
+    <span className="inline-flex items-center rounded-full bg-purple-600/10 text-purple-400 border border-purple-400/20 px-2 py-0.5 text-sm">
+      {children}
+    </span>
+  );
+}
+
+// components/ui/avatar.jsx
+export function Avatar({ children }) {
+  return <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-lg font-bold">{children}</div>;
+}
+export function AvatarFallback({ children }) {
+  return <>{children}</>;
+}
+
+// components/ui/switch.jsx
+export function Switch({ checked, onCheckedChange }) {
+  return (
+    <label className="relative inline-flex items-center cursor-pointer">
+      <input type="checkbox" checked={checked} onChange={e => onCheckedChange(e.target.checked)} className="sr-only" />
+      <div className="w-11 h-6 bg-gray-300 rounded-full shadow-inner transition peer-checked:bg-purple-600"></div>
+      <div className="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition peer-checked:translate-x-5"></div>
+    </label>
+  );
+}
+
+// components/ui/scroll-area.jsx
+export function ScrollArea({ children, className = "" }) {
+  return <div className={`overflow-y-auto ${className}`}>{children}</div>;
+}
+
+// components/ui/select.jsx
 import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Switch } from "@/components/ui/switch";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+export function Select({ value, onValueChange, children }) {
+  return <div>{children({ value, onValueChange })}</div>;
+}
+export function SelectTrigger({ children, className = "" }) {
+  return <div className={`border px-3 py-2 rounded cursor-pointer ${className}`}>{children}</div>;
+}
+export function SelectValue({ placeholder }) {
+  return <span>{placeholder}</span>;
+}
+export function SelectContent({ children, className = "" }) {
+  return <div className={`mt-2 rounded border shadow p-2 ${className}`}>{children}</div>;
+}
+export function SelectItem({ value, children }) {
+  return <div className="p-2 hover:bg-purple-100 cursor-pointer" onClick={() => alert(`Set season to ${value}`)}>{children}</div>;
+}
+
+// pages/index.jsx
+import { useState } from "react";
+import { Card, CardContent } from "../components/ui/card";
+import { Badge } from "../components/ui/badge";
+import { ScrollArea } from "../components/ui/scroll-area";
+import { Switch } from "../components/ui/switch";
+import { Avatar, AvatarFallback } from "../components/ui/avatar";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 
 const leaderboardData = [
   {
