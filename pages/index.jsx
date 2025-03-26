@@ -103,30 +103,31 @@ export default function Leaderboard() {
       className={`font-sans min-h-screen px-4 py-8 transition-colors duration-300 ${darkMode ? "bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-800 text-white" : "bg-white text-black"}`}
     >
       <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold tracking-wide">🎷 Audius Leaderboard - {season}
-          </h1>
-          <div className="flex items-center gap-2">
-            <span className="text-sm">Light</span>
-            <Switch checked={darkMode} onCheckedChange={() => setDarkMode(!darkMode)} />
-            <span className="text-sm">Dark</span>
+        {/* Sticky Header */}
+        <div className="sticky top-0 z-20 bg-inherit backdrop-blur-sm pb-4">
+          <div className="flex justify-between items-center">
+            <h1 className="text-3xl font-bold tracking-wide">🎷 Audius Leaderboard - {season}</h1>
+            <div className="flex items-center gap-2">
+              <span className="text-sm">Light</span>
+              <Switch checked={darkMode} onCheckedChange={() => setDarkMode(!darkMode)} />
+              <span className="text-sm">Dark</span>
+            </div>
           </div>
-        </div>
-
-        <div className="flex justify-start">
-          <Select value={season} onValueChange={(val) => setSeason(val)}>
-            <SelectTrigger
-              className={`w-32 border rounded px-3 py-2 ${darkMode ? "bg-black text-white border-white/20" : "bg-white text-black border-black/20"}`}
-            >
-              <SelectValue placeholder="Season" />
-            </SelectTrigger>
-            <SelectContent
-              className={`absolute z-50 mt-1 rounded shadow-lg border ${darkMode ? "bg-black text-white border-white/10" : "bg-white text-black border-black/10"}`}
-            >
-              <SelectItem value="S1">Season 1</SelectItem>
-              <SelectItem value="S2">Season 2</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="flex justify-start mt-2">
+            <Select value={season} onValueChange={(val) => setSeason(val)}>
+              <SelectTrigger
+                className={`w-32 border rounded px-3 py-2 ${darkMode ? "bg-black text-white border-white/20" : "bg-white text-black border-black/20"}`}
+              >
+                <SelectValue placeholder="Season" />
+              </SelectTrigger>
+              <SelectContent
+                className={`absolute z-50 mt-1 rounded shadow-lg border ${darkMode ? "bg-black text-white border-white/10" : "bg-white text-black border-black/10"}`}
+              >
+                <SelectItem value="S1">Season 1</SelectItem>
+                <SelectItem value="S2">Season 2</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         <ScrollArea className="h-[70vh]">
@@ -135,7 +136,7 @@ export default function Leaderboard() {
               leaderboardData.map((artist, idx) => (
                 <Card
                   key={artist.rank}
-                  className="border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 transform hover:scale-[1.01] hover:border-purple-500/40 hover:shadow-lg"
+                  className="border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 transform hover:scale-[1.01] hover:border-purple-500/40 hover:shadow-[0_0_10px_rgba(168,85,247,0.3)]"
                   style={{
                     animation: `fadeInUp 0.3s ease ${idx * 0.05}s forwards`,
                     opacity: 0,
