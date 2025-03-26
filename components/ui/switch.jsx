@@ -1,14 +1,18 @@
 export function Switch({ checked, onCheckedChange }) {
   return (
-    <label className="relative inline-flex items-center cursor-pointer">
-      <input
-        type="checkbox"
-        className="sr-only peer"
-        checked={checked}
-        onChange={(e) => onCheckedChange(e.target.checked)}
+    <button
+      role="switch"
+      aria-checked={checked}
+      onClick={() => onCheckedChange(!checked)}
+      className={`w-10 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
+        checked ? "bg-purple-600" : "bg-gray-300"
+      }`}
+    >
+      <div
+        className={`w-4 h-4 rounded-full bg-white shadow-md transform transition-transform duration-300 ${
+          checked ? "translate-x-4" : "translate-x-0"
+        }`}
       />
-      <div className="w-11 h-6 bg-gray-300 peer-checked:bg-purple-600 rounded-full transition-colors"></div>
-      <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 peer-checked:translate-x-5" />
-    </label>
+    </button>
   );
 }
