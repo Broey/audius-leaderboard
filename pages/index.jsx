@@ -183,7 +183,7 @@ export default function Leaderboard() {
                       <Badge variant="default">🔥 {artist.top5}x Top 5</Badge>
                     )}
                   </div>
-                </CardContent>
+                </div>
               </Card>
             ))}
         </div>
