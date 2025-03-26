@@ -100,22 +100,24 @@ export default function Leaderboard() {
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    async function loadProfileImages() {
-      const imageMap = {};
-      for (const artist of leaderboardData) {
-        const user = await fetchAudiusUser(artist.handle); console.log("Fetched user:", artist.handle, user); // <== ADD THIS LINE
-        if (user?.profile_picture) {
-  if (typeof user.profile_picture === "object" && user.profile_picture['150x150']) {
-    imageMap[artist.handle] = user.profile_picture['150x150'];
-  } else if (typeof user.profile_picture === "string") {
-    imageMap[artist.handle] = user.profile_picture;
-  }
-}
-      setProfileImages(imageMap);
+ useEffect(() => {
+  async function loadProfileImages() {
+    const imageMap = {};
+    for (const artist of leaderboardData) {
+      const user = await fetchAudiusUser(artist.handle);
+      console.log("Fetched user:", artist.handle, user); // <== This line is added for debugging
+      if (user?.profile_picture) {
+        if (typeof user.profile_picture === "object" && user.profile_picture['150x150']) {
+          imageMap[artist.handle] = user.profile_picture['150x150'];
+        } else if (typeof user.profile_picture === "string") {
+          imageMap[artist.handle] = user.profile_picture;
+        }
+      }
     }
-    loadProfileImages();
-  }, []);
+    setProfileImages(imageMap); // This should be outside of the for loop, but inside the useEffect
+  }
+  loadProfileImages();
+}, []);
 
   return (
     <div
