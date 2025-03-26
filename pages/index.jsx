@@ -61,13 +61,18 @@ export function SelectItem({ value, children }) {
 }
 
 // pages/index.jsx
-import { useState } from "react";
 import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { ScrollArea } from "../components/ui/scroll-area";
 import { Switch } from "../components/ui/switch";
 import { Avatar, AvatarFallback } from "../components/ui/avatar";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
 
 const leaderboardData = [
   {
