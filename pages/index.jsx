@@ -13,59 +13,97 @@ import {
   SelectValue,
 } from "../components/ui/select";
 
-const initialData = [
-  { rank: 1, artist: "Broey.", handle: "broeybeats", score: 96.3, top5: 2, accolades: ["🥇 Season Winner", "🔥 2x Top 5"] },
-  { rank: 2, artist: "chillhopmusic", handle: "chillhopmusic", score: 78.9, top5: 1, accolades: ["🥈 Runner-Up", "🔥 Top 5"] },
-  { rank: 3, artist: "dreameaterism", handle: "dreameaterism", score: 72.4, top5: 0, accolades: ["🚀 Breakout Artist"] },
-  { rank: 4, artist: "sadboysnow", handle: "sadboysnow", score: 70.1, top5: 1 },
-  { rank: 5, artist: "phuture", handle: "phuture", score: 68.8, top5: 0 },
-  { rank: 6, artist: "underbelly", handle: "underbelly", score: 52.5, top5: 0 },
-  { rank: 7, artist: "ellzo", handle: "ellzoofficial", score: 50.7, top5: 0 },
-  { rank: 8, artist: "laxcity", handle: "laxcitymusic", score: 49.2, top5: 0 },
-  { rank: 9, artist: "aedhus", handle: "aedhusmusic", score: 47.8, top5: 0 },
-  { rank: 10, artist: "manhattanbeats", handle: "manhattanbeats", score: 47.1, top5: 0 },
+const leaderboardData = [
+  {
+    rank: 1,
+    artist: "Broey.",
+    handle: "broeybeats",
+    score: 96.3,
+    top5: 2,
+    accolades: ["🥇 Season Winner", "🔥 2x Top 5"],
+  },
+  {
+    rank: 2,
+    artist: "chillhopmusic",
+    handle: "chillhopmusic",
+    score: 78.9,
+    top5: 1,
+    accolades: ["🥈 Runner-Up", "🔥 Top 5"],
+  },
+  {
+    rank: 3,
+    artist: "dreameaterism",
+    handle: "dreameaterism",
+    score: 72.4,
+    top5: 0,
+    accolades: ["🚀 Breakout Artist"],
+  },
+  {
+    rank: 4,
+    artist: "sadboysnow",
+    handle: "sadboysnow",
+    score: 70.1,
+    top5: 1,
+  },
+  {
+    rank: 5,
+    artist: "phuture",
+    handle: "phuture",
+    score: 68.8,
+    top5: 0,
+  },
+  {
+    rank: 6,
+    artist: "underbelly",
+    handle: "underbelly",
+    score: 52.5,
+    top5: 0,
+  },
+  {
+    rank: 7,
+    artist: "ellzo",
+    handle: "ellzoofficial",
+    score: 50.7,
+    top5: 0,
+  },
+  {
+    rank: 8,
+    artist: "laxcity",
+    handle: "laxcitymusic",
+    score: 49.2,
+    top5: 0,
+  },
+  {
+    rank: 9,
+    artist: "aedhus",
+    handle: "aedhusmusic",
+    score: 47.8,
+    top5: 0,
+  },
+  {
+    rank: 10,
+    artist: "manhattanbeats",
+    handle: "manhattanbeats",
+    score: 47.1,
+    top5: 0,
+  },
 ];
 
 export default function Leaderboard() {
   const [darkMode, setDarkMode] = useState(true);
   const [season, setSeason] = useState("S1");
   const [mounted, setMounted] = useState(false);
-  const [leaderboardData, setLeaderboardData] = useState(initialData);
 
   useEffect(() => {
     setMounted(true);
-    fetchProfilePics();
   }, []);
-
-  const fetchProfilePics = async () => {
-    try {
-      const discoveryRes = await fetch("https://api.audius.co");
-      const { data } = await discoveryRes.json();
-      const api = data[0];
-
-      const updated = await Promise.all(
-        initialData.map(async (user) => {
-          try {
-            const res = await fetch(`${api}/v1/users?handle=${user.handle}&app_name=audius-leaderboard`);
-            const json = await res.json();
-            const pic = json?.data?.[0]?.profile_picture?.['150x150'] || null;
-            return { ...user, profilePic: pic };
-          } catch {
-            return user;
-          }
-        })
-      );
-      setLeaderboardData(updated);
-    } catch (e) {
-      console.error("Failed to fetch Audius profiles:", e);
-    }
-  };
 
   return (
     <div
       className={`font-sans min-h-screen px-4 py-8 transition-colors duration-300 ${darkMode ? "bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-800 text-white" : "bg-white text-black"}`}
     >
       <div className="max-w-4xl mx-auto space-y-6">
+        {/* Sticky Header */}
         <div className="sticky top-0 z-20 bg-inherit backdrop-blur-sm pb-4">
           <div className="flex justify-between items-center">
             <h1 className="text-3xl font-bold tracking-wide">🎷 Audius Leaderboard - {season}</h1>
@@ -107,13 +145,9 @@ export default function Leaderboard() {
                   <CardContent className="flex items-center justify-between p-4">
                     <div className="flex items-center gap-4">
                       <div className="text-xl font-bold w-6 text-right">{artist.rank}</div>
-                      {artist.profilePic ? (
-                        <img src={artist.profilePic} alt={artist.artist} className="w-10 h-10 rounded-full" />
-                      ) : (
-                        <Avatar>
-                          <AvatarFallback>{artist.artist.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                      )}
+                      <Avatar>
+                        <AvatarFallback>{artist.artist.charAt(0)}</AvatarFallback>
+                      </Avatar>
                       <div>
                         <div className="text-lg font-semibold">
                           <a
