@@ -110,7 +110,7 @@ export default function Leaderboard() {
             >
               <SelectValue placeholder="Season" />
             </SelectTrigger>
-            <SelectContent className={`absolute mt-1 ${darkMode ? "bg-black text-white" : "bg-white text-black"} z-50`}> 
+            <SelectContent className={`${darkMode ? "bg-black text-white" : "bg-white text-black"} z-50`} style={{ position: "absolute", top: "100%" }}>
               <SelectItem value="S1">Season 1</SelectItem>
               <SelectItem value="S2">Season 2</SelectItem>
             </SelectContent>
