@@ -4,7 +4,7 @@ import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { ScrollArea } from "../components/ui/scroll-area";
 import { Switch } from "../components/ui/switch";
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
+import { Avatar, AvatarFallback } from "../components/ui/avatar";
 import {
   Select,
   SelectContent,
@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import { fetchAudiusUser } from "../lib/fetchAudiusUser"; // <-- import this
+import fetchAudiusUser from "../lib/fetchAudiusUser";
 
 const leaderboardData = [
   {
@@ -94,24 +94,39 @@ export default function Leaderboard() {
   const [darkMode, setDarkMode] = useState(true);
   const [season, setSeason] = useState("S1");
   const [mounted, setMounted] = useState(false);
+  const [profileImages, setProfileImages] = useState({});
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    async function loadProfileImages() {
+      const imageMap = {};
+      for (const artist of leaderboardData) {
+        const user = await fetchAudiusUser(artist.handle);
+        if (user?.profile_picture?.['150x150']) {
+          imageMap[artist.handle] = user.profile_picture['150x150'];
+        }
+      }
+      setProfileImages(imageMap);
+    }
+    loadProfileImages();
+  }, []);
+
   return (
     <div
-      className={`relative z-0 max-w-4xl mx-auto px-4 sm:px-6 py-6 transition-colors duration-300 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
+      className={`max-w-4xl mx-auto px-4 sm:px-6 py-6 transition-colors duration-300 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
     >
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 relative z-10">
-        <div className="mb-4 sm:mb-0">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+        <div className="mb-4 sm:mb-0 relative z-10">
           <Select value={season} onValueChange={(val) => setSeason(val)}>
             <SelectTrigger
               className={`w-32 ${darkMode ? "bg-black text-white border-white/20" : "bg-white text-black border-black/20"}`}
             >
               <SelectValue placeholder="Season" />
             </SelectTrigger>
-            <SelectContent className={`${darkMode ? "bg-black text-white" : "bg-white text-black"} z-50`} style={{ position: "absolute", top: "100%" }}>
+            <SelectContent className={`${darkMode ? "bg-black text-white" : "bg-white text-black"} z-50`}>
               <SelectItem value="S1">Season 1</SelectItem>
               <SelectItem value="S2">Season 2</SelectItem>
             </SelectContent>
@@ -144,21 +159,20 @@ export default function Leaderboard() {
                       {artist.rank}
                     </div>
                     <Avatar>
-  <img
-    src={getProfileImageUrl(artist.handle)}
-    alt={artist.artist}
-    className="w-full h-full rounded-full object-cover"
-    onError={(e) => {
-      e.target.style.display = "none";
-    }}
-  />
-  <AvatarFallback>
-    <div className="w-full h-full flex items-center justify-center bg-gray-500 text-white rounded-full text-sm">
-      {artist.artist.charAt(0)}
-    </div>
-  </AvatarFallback>
-</Avatar>
-
+                      {profileImages[artist.handle] ? (
+                        <img
+                          src={profileImages[artist.handle]}
+                          alt={artist.artist}
+                          className="w-10 h-10 rounded-full"
+                        />
+                      ) : (
+                        <AvatarFallback>
+                          <div className="w-full h-full flex items-center justify-center bg-gray-500 text-white rounded-full text-sm">
+                            {artist.artist.charAt(0)}
+                          </div>
+                        </AvatarFallback>
+                      )}
+                    </Avatar>
                     <div>
                       <div className="text-lg font-semibold">
                         <a
