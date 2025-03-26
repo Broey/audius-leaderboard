@@ -7,13 +7,7 @@ import { Badge } from "../components/ui/badge";
 import { ScrollArea } from "../components/ui/scroll-area";
 import { Switch } from "../components/ui/switch";
 import { Avatar, AvatarFallback } from "../components/ui/avatar";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../components/ui/select";
+
 
 const leaderboardData = [
   {
@@ -93,7 +87,9 @@ const leaderboardData = [
 
 export default function Leaderboard() {
   const [darkMode, setDarkMode] = useState(true);
-  const [season, setSeason] = useState("S1");
+const [season, setSeason] = useState("S1");
+const [dropdownOpen, setDropdownOpen] = useState(false); // 👈 Add this line
+
 
   return (
     <div
@@ -108,33 +104,40 @@ export default function Leaderboard() {
       </div>
 
       
-      <div className="relative inline-block">
-  <Select
-    value={season}
-    onValueChange={(val) => {
-      setSeason(val);
-      setDropdownOpen(false);
-    }}
+    <div className="relative">
+  <button
+    onClick={() => setDropdownOpen(!dropdownOpen)}
+    className={`border px-3 py-2 rounded cursor-pointer w-28 ${darkMode ? 'bg-black text-white border-white/20' : 'bg-white text-black border-black/20'}`}
   >
-    {({ value, onValueChange }) => (
-      <>
-        <SelectTrigger
-          className={`${darkMode ? 'bg-black text-white border-white/20' : 'bg-white text-black border-black/20'}`}
-          onClick={() => setDropdownOpen(!dropdownOpen)}
-        >
-          <SelectValue placeholder="Season" />
-        </SelectTrigger>
+    {season}
+  </button>
 
-        {dropdownOpen && (
-          <SelectContent className={`${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
-            <SelectItem value="S1" onSelect={onValueChange}>Season 1</SelectItem>
-            <SelectItem value="S2" onSelect={onValueChange}>Season 2</SelectItem>
-          </SelectContent>
-        )}
-      </>
-    )}
-  </Select>
+  {dropdownOpen && (
+    <div
+      className={`absolute z-10 mt-1 w-28 rounded border shadow p-2 ${darkMode ? 'bg-black text-white border-white/20' : 'bg-white text-black border-black/20'}`}
+    >
+      <div
+        onClick={() => {
+          setSeason("S1");
+          setDropdownOpen(false);
+        }}
+        className="p-2 hover:bg-purple-100 cursor-pointer"
+      >
+        Season 1
+      </div>
+      <div
+        onClick={() => {
+          setSeason("S2");
+          setDropdownOpen(false);
+        }}
+        className="p-2 hover:bg-purple-100 cursor-pointer"
+      >
+        Season 2
+      </div>
+    </div>
+  )}
 </div>
+
 
 
       
