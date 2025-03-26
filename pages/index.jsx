@@ -20,7 +20,7 @@ const leaderboardData = [
     handle: "broeybeats",
     score: 96.3,
     top5: 2,
-    accolades: ["🥇 Season Winner", "🔥 2x Top 5"],
+    accolades: ["🏇 Season Winner", "🔥 2x Top 5"],
   },
   {
     rank: 2,
@@ -100,11 +100,11 @@ export default function Leaderboard() {
 
   return (
     <div
-      className={`max-w-4xl mx-auto p-6 transition-colors duration-300 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
+      className={`max-w-4xl mx-auto px-4 sm:px-6 py-6 transition-colors duration-300 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
     >
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold text-center w-full">
-          🎧 Audius Leaderboard - {season}
+          🎷 Audius Leaderboard - {season}
         </h1>
       </div>
       <div className="flex justify-between items-center mb-6">
@@ -134,14 +134,21 @@ export default function Leaderboard() {
         <div className="space-y-4">
           {mounted &&
             leaderboardData.map((artist) => (
-              <Card key={artist.rank} className="border border-white/10">
+              <Card
+                key={artist.rank}
+                className="border border-white/10 hover:shadow-lg hover:scale-[1.01] transition-transform duration-200"
+              >
                 <CardContent className="flex items-center justify-between p-4">
                   <div className="flex items-center gap-4">
                     <div className="text-xl font-bold w-6 text-right">
                       {artist.rank}
                     </div>
                     <Avatar>
-                      <AvatarFallback>{artist.artist.charAt(0)}</AvatarFallback>
+                      <AvatarFallback>
+                        <div className="w-full h-full flex items-center justify-center bg-gray-500 text-white rounded-full text-sm">
+                          {artist.artist.charAt(0)}
+                        </div>
+                      </AvatarFallback>
                     </Avatar>
                     <div>
                       <div className="text-lg font-semibold">
@@ -181,6 +188,9 @@ export default function Leaderboard() {
             ))}
         </div>
       </ScrollArea>
+      <footer className="mt-8 text-center text-xs opacity-60">
+        Built by Broey using the Audius API 🚀
+      </footer>
     </div>
   );
 }
