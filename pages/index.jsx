@@ -104,7 +104,7 @@ export default function Leaderboard() {
     async function loadProfileImages() {
       const imageMap = {};
       for (const artist of leaderboardData) {
-        const user = await fetchAudiusUser(artist.handle);
+        const user = await fetchAudiusUser(artist.handle); console.log("Fetched user:", artist.handle, user); // <== ADD THIS LINE
         if (user?.profile_picture?.['150x150']) {
           imageMap[artist.handle] = user.profile_picture['150x150'];
         }
