@@ -102,26 +102,24 @@ export default function Leaderboard() {
     <div
       className={`max-w-4xl mx-auto px-4 sm:px-6 py-6 transition-colors duration-300 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
     >
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-bold text-center w-full">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+        <div className="mb-4 sm:mb-0">
+          <Select value={season} onValueChange={(val) => setSeason(val)}>
+            <SelectTrigger
+              className={`w-32 ${darkMode ? "bg-black text-white border-white/20" : "bg-white text-black border-black/20"}`}
+            >
+              <SelectValue placeholder="Season" />
+            </SelectTrigger>
+            <SelectContent className={`${darkMode ? "bg-black text-white" : "bg-white text-black"} z-50`}>
+              <SelectItem value="S1">Season 1</SelectItem>
+              <SelectItem value="S2">Season 2</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <h1 className="text-3xl font-bold text-center w-full sm:w-auto">
           🎷 Audius Leaderboard - {season}
         </h1>
-      </div>
-      <div className="flex justify-between items-center mb-6">
-        <Select value={season} onValueChange={(val) => setSeason(val)}>
-          <SelectTrigger
-            className={`w-28 ${darkMode ? "bg-black text-white border-white/20" : "bg-white text-black border-black/20"}`}
-          >
-            <SelectValue placeholder="Season" />
-          </SelectTrigger>
-          <SelectContent
-            className={darkMode ? "bg-black text-white" : "bg-white text-black"}
-          >
-            <SelectItem value="S1">Season 1</SelectItem>
-            <SelectItem value="S2">Season 2</SelectItem>
-          </SelectContent>
-        </Select>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mt-4 sm:mt-0">
           <span className="text-sm">Light</span>
           <Switch
             checked={darkMode}
@@ -130,6 +128,7 @@ export default function Leaderboard() {
           <span className="text-sm">Dark</span>
         </div>
       </div>
+
       <ScrollArea className="h-[70vh]">
         <div className="space-y-4">
           {mounted &&
