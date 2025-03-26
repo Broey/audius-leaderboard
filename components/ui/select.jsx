@@ -1,8 +1,6 @@
 // components/ui/select.jsx
-import { useState } from "react";
-
-export function Select({ value, onValueChange, children }) {
-  // Simply render children as provided
+export function Select({ children, value, onValueChange }) {
+  // Simply render children without treating them as a function
   return <div>{children}</div>;
 }
 export function SelectTrigger({ children, className = "" }) {
@@ -18,7 +16,10 @@ export function SelectItem({ value, children }) {
   return (
     <div
       className="p-2 hover:bg-purple-100 cursor-pointer"
-      onClick={() => alert(`Set season to ${value}`)}
+      onClick={() => {
+        // For now, just show an alert; later you can wire this up to actually change the season.
+        alert(`Set season to ${value}`);
+      }}
     >
       {children}
     </div>
