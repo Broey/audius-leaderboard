@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import fetchAudiusUser from "../lib/fetchAudiusUser";
+import fetchAudiusUser from "../lib/fetchAudiusUser"; // import updated function
 
 const leaderboardData = [
   {
@@ -23,71 +23,7 @@ const leaderboardData = [
     top5: 2,
     accolades: ["🏇 Season Winner", "🔥 2x Top 5"],
   },
-  {
-    rank: 2,
-    artist: "chillhopmusic",
-    handle: "chillhopmusic",
-    score: 78.9,
-    top5: 1,
-    accolades: ["🥈 Runner-Up", "🔥 Top 5"],
-  },
-  {
-    rank: 3,
-    artist: "dreameaterism",
-    handle: "dreameaterism",
-    score: 72.4,
-    top5: 0,
-    accolades: ["🚀 Breakout Artist"],
-  },
-  {
-    rank: 4,
-    artist: "sadboysnow",
-    handle: "sadboysnow",
-    score: 70.1,
-    top5: 1,
-  },
-  {
-    rank: 5,
-    artist: "phuture",
-    handle: "phuture",
-    score: 68.8,
-    top5: 0,
-  },
-  {
-    rank: 6,
-    artist: "underbelly",
-    handle: "underbelly",
-    score: 52.5,
-    top5: 0,
-  },
-  {
-    rank: 7,
-    artist: "ellzo",
-    handle: "ellzoofficial",
-    score: 50.7,
-    top5: 0,
-  },
-  {
-    rank: 8,
-    artist: "laxcity",
-    handle: "laxcitymusic",
-    score: 49.2,
-    top5: 0,
-  },
-  {
-    rank: 9,
-    artist: "aedhus",
-    handle: "aedhusmusic",
-    score: 47.8,
-    top5: 0,
-  },
-  {
-    rank: 10,
-    artist: "manhattanbeats",
-    handle: "manhattanbeats",
-    score: 47.1,
-    top5: 0,
-  },
+  // ... other artists
 ];
 
 export default function Leaderboard() {
@@ -100,24 +36,19 @@ export default function Leaderboard() {
     setMounted(true);
   }, []);
 
- useEffect(() => {
-  async function loadProfileImages() {
-    const imageMap = {};
-    for (const artist of leaderboardData) {
-      const user = await fetchAudiusUser(artist.handle);
-      console.log("Fetched user:", artist.handle, user); // <== This line is added for debugging
-      if (user?.profile_picture) {
-        if (typeof user.profile_picture === "object" && user.profile_picture['150x150']) {
+  useEffect(() => {
+    async function loadProfileImages() {
+      const imageMap = {};
+      for (const artist of leaderboardData) {
+        const user = await fetchAudiusUser(artist.handle); // calling backend route
+        if (user?.profile_picture?.['150x150']) {
           imageMap[artist.handle] = user.profile_picture['150x150'];
-        } else if (typeof user.profile_picture === "string") {
-          imageMap[artist.handle] = user.profile_picture;
         }
       }
+      setProfileImages(imageMap);
     }
-    setProfileImages(imageMap); // This should be outside of the for loop, but inside the useEffect
-  }
-  loadProfileImages();
-}, []);
+    loadProfileImages();
+  }, []);
 
   return (
     <div
