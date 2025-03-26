@@ -1,13 +1,9 @@
-// pages/index.jsx
 import { useState } from "react";
-
-// Import your UI components from the separate files in /components/ui
 import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { ScrollArea } from "../components/ui/scroll-area";
 import { Switch } from "../components/ui/switch";
 import { Avatar, AvatarFallback } from "../components/ui/avatar";
-
 
 const leaderboardData = [
   {
@@ -16,7 +12,7 @@ const leaderboardData = [
     handle: "broeybeats",
     score: 96.3,
     top5: 2,
-    accolades: ["🥇 Season Winner", "🔥 2x Top 5"],
+    accolades: ["🥇 Season Winner", "🔥 2x Top 5"]
   },
   {
     rank: 2,
@@ -24,7 +20,7 @@ const leaderboardData = [
     handle: "chillhopmusic",
     score: 78.9,
     top5: 1,
-    accolades: ["🥈 Runner-Up", "🔥 Top 5"],
+    accolades: ["🥈 Runner-Up", "🔥 Top 5"]
   },
   {
     rank: 3,
@@ -32,7 +28,7 @@ const leaderboardData = [
     handle: "dreameaterism",
     score: 72.4,
     top5: 0,
-    accolades: ["🚀 Breakout Artist"],
+    accolades: ["🚀 Breakout Artist"]
   },
   {
     rank: 4,
@@ -87,77 +83,67 @@ const leaderboardData = [
 
 export default function Leaderboard() {
   const [darkMode, setDarkMode] = useState(true);
-const [season, setSeason] = useState("S1");
-const [dropdownOpen, setDropdownOpen] = useState(false); // 👈 Add this line
-
+  const [season, setSeason] = useState("S1");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
-    <div
-      className={`max-w-4xl mx-auto p-6 transition-colors duration-300 ${
-        darkMode ? "bg-black text-white" : "bg-white text-black"
-      }`}
-    >
+    <div className={`max-w-4xl mx-auto p-6 transition-colors duration-300 min-h-screen ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-bold text-center w-full">
-          🎧 Audius Leaderboard - {season}
-        </h1>
+        <h1 className="text-3xl font-bold text-center w-full">🎧 Audius Leaderboard - {season}</h1>
       </div>
 
-      
-    <div className="relative">
-  <button
-    onClick={() => setDropdownOpen(!dropdownOpen)}
-    className={`border px-3 py-2 rounded cursor-pointer w-28 ${darkMode ? 'bg-black text-white border-white/20' : 'bg-white text-black border-black/20'}`}
-  >
-    {season}
-  </button>
+      <div className="flex justify-between items-center mb-6">
+        {/* Season Dropdown */}
+        <div className="relative">
+          <button
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+            className={`border px-3 py-2 rounded cursor-pointer w-28 ${darkMode ? 'bg-black text-white border-white/20' : 'bg-white text-black border-black/20'}`}
+          >
+            {season}
+          </button>
 
-  {dropdownOpen && (
-    <div
-      className={`absolute z-10 mt-1 w-28 rounded border shadow p-2 ${darkMode ? 'bg-black text-white border-white/20' : 'bg-white text-black border-black/20'}`}
-    >
-      <div
-        onClick={() => {
-          setSeason("S1");
-          setDropdownOpen(false);
-        }}
-        className="p-2 hover:bg-purple-100 cursor-pointer"
-      >
-        Season 1
-      </div>
-      <div
-        onClick={() => {
-          setSeason("S2");
-          setDropdownOpen(false);
-        }}
-        className="p-2 hover:bg-purple-100 cursor-pointer"
-      >
-        Season 2
-      </div>
-    </div>
-  )}
-</div>
+          {dropdownOpen && (
+            <div
+              className={`absolute z-10 mt-1 w-28 rounded border shadow p-2 ${darkMode ? 'bg-black text-white border-white/20' : 'bg-white text-black border-black/20'}`}
+            >
+              <div
+                onClick={() => {
+                  setSeason("S1");
+                  setDropdownOpen(false);
+                }}
+                className="p-2 hover:bg-purple-100 cursor-pointer"
+              >
+                Season 1
+              </div>
+              <div
+                onClick={() => {
+                  setSeason("S2");
+                  setDropdownOpen(false);
+                }}
+                className="p-2 hover:bg-purple-100 cursor-pointer"
+              >
+                Season 2
+              </div>
+            </div>
+          )}
+        </div>
 
-
-
-      
+        {/* Light/Dark Mode Toggle */}
         <div className="flex items-center gap-2">
           <span className="text-sm">Light</span>
-          <Switch checked={darkMode} onCheckedChange={(val) => setDarkMode(val)} />
-
+          <Switch checked={darkMode} onCheckedChange={() => setDarkMode(!darkMode)} />
           <span className="text-sm">Dark</span>
         </div>
       </div>
 
+      {/* Leaderboard List */}
       <ScrollArea className="h-[70vh]">
         <div className="space-y-4">
           {leaderboardData.map((artist) => (
             <Card key={artist.rank} className="border border-white/10">
               <CardContent className="flex items-center justify-between p-4">
                 <div className="flex items-center gap-4">
-                  <div className="text-xl font-bold w-6 text-right">
-                    {artist.rank}
-                  </div>
+                  <div className="text-xl font-bold w-6 text-right">{artist.rank}</div>
                   <Avatar>
                     <AvatarFallback>{artist.artist.charAt(0)}</AvatarFallback>
                   </Avatar>
@@ -172,9 +158,7 @@ const [dropdownOpen, setDropdownOpen] = useState(false); // 👈 Add this line
                         {artist.artist}
                       </a>
                     </div>
-                    <div className="text-muted-foreground text-sm">
-                      @{artist.handle}
-                    </div>
+                    <div className="text-muted-foreground text-sm">@{artist.handle}</div>
                     {artist.accolades && (
                       <div className="mt-1 flex flex-wrap gap-1">
                         {artist.accolades.map((acc, idx) => (
@@ -189,7 +173,6 @@ const [dropdownOpen, setDropdownOpen] = useState(false); // 👈 Add this line
                     )}
                   </div>
                 </div>
-
                 <div className="flex items-center gap-2">
                   {artist.top5 > 0 && (
                     <Badge variant="default">🔥 {artist.top5}x Top 5</Badge>
