@@ -105,10 +105,13 @@ export default function Leaderboard() {
       const imageMap = {};
       for (const artist of leaderboardData) {
         const user = await fetchAudiusUser(artist.handle); console.log("Fetched user:", artist.handle, user); // <== ADD THIS LINE
-        if (user?.profile_picture?.['150x150']) {
-          imageMap[artist.handle] = user.profile_picture['150x150'];
-        }
-      }
+        if (user?.profile_picture) {
+  if (typeof user.profile_picture === "object" && user.profile_picture['150x150']) {
+    imageMap[artist.handle] = user.profile_picture['150x150'];
+  } else if (typeof user.profile_picture === "string") {
+    imageMap[artist.handle] = user.profile_picture;
+  }
+}
       setProfileImages(imageMap);
     }
     loadProfileImages();
