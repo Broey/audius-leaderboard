@@ -109,22 +109,22 @@ export default function Leaderboard() {
 
       <div className="flex justify-between items-center mb-6">
         <Select value={season} onValueChange={(val) => setSeason(val)}>
-          <SelectTrigger
-            className={`w-28 ${
-              darkMode
-                ? "bg-black text-white border-white/20"
-                : "bg-white text-black border-black/20"
-            }`}
-          >
-            <SelectValue placeholder="Season" />
-          </SelectTrigger>
-          <SelectContent
-            className={darkMode ? "bg-black text-white" : "bg-white text-black"}
-          >
-            <SelectItem value="S1">Season 1</SelectItem>
-            <SelectItem value="S2">Season 2</SelectItem>
-          </SelectContent>
-        </Select>
+  {({ value, onValueChange, open, setOpen }) => (
+    <>
+      <SelectTrigger
+        className={`w-28 ${darkMode ? 'bg-black text-white border-white/20' : 'bg-white text-black border-black/20'}`}
+        onClick={() => setOpen(!open)}
+      >
+        <SelectValue placeholder="Season" />
+      </SelectTrigger>
+      <SelectContent open={open} className={darkMode ? 'bg-black text-white' : 'bg-white text-black'}>
+        <SelectItem value="S1" onSelect={(val) => { onValueChange(val); setOpen(false); }}>Season 1</SelectItem>
+        <SelectItem value="S2" onSelect={(val) => { onValueChange(val); setOpen(false); }}>Season 2</SelectItem>
+      </SelectContent>
+    </>
+  )}
+</Select>
+
 
         <div className="flex items-center gap-2">
           <span className="text-sm">Light</span>
