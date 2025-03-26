@@ -1,7 +1,9 @@
+// components/ui/select.jsx
 import { useState } from "react";
 
 export function Select({ value, onValueChange, children }) {
-  return <div>{children({ value, onValueChange })}</div>;
+  // Simply render children as provided
+  return <div>{children}</div>;
 }
 export function SelectTrigger({ children, className = "" }) {
   return <div className={`border px-3 py-2 rounded cursor-pointer ${className}`}>{children}</div>;
