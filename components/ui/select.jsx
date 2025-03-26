@@ -1,18 +1,17 @@
 import { useState } from "react";
 
 export function Select({ value, onValueChange, children }) {
-  const [open, setOpen] = useState(false);
-  return children({ value, onValueChange, open, setOpen });
+  return children({ value, onValueChange });
 }
 
 export function SelectTrigger({ children, className = "", onClick }) {
   return (
-    <div
-      className={`border px-3 py-2 rounded cursor-pointer ${className}`}
+    <button
       onClick={onClick}
+      className={`border px-3 py-2 rounded cursor-pointer ${className}`}
     >
       {children}
-    </div>
+    </button>
   );
 }
 
@@ -20,15 +19,21 @@ export function SelectValue({ placeholder }) {
   return <span>{placeholder}</span>;
 }
 
-export function SelectContent({ children, open, className = "" }) {
-  if (!open) return null;
-  return <div className={`mt-2 rounded border shadow p-2 ${className}`}>{children}</div>;
-}
-
-export function SelectItem({ value, children, onSelect }) {
+export function SelectContent({ children, className = "" }) {
   return (
     <div
-      className="p-2 hover:bg-purple-100 cursor-pointer"
+      className={`absolute mt-2 z-50 rounded border shadow p-2 bg-white dark:bg-black ${className}`}
+      style={{ minWidth: "7rem" }}
+    >
+      {children}
+    </div>
+  );
+}
+
+export function SelectItem({ value, onSelect, children }) {
+  return (
+    <div
+      className="p-2 hover:bg-purple-100 dark:hover:bg-purple-900 cursor-pointer"
       onClick={() => onSelect(value)}
     >
       {children}
