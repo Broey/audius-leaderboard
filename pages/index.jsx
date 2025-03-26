@@ -1,5 +1,6 @@
 // pages/index.jsx
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { ScrollArea } from "../components/ui/scroll-area";
@@ -93,9 +94,25 @@ export default function Leaderboard() {
   const [darkMode, setDarkMode] = useState(true);
   const [season, setSeason] = useState("S1");
   const [mounted, setMounted] = useState(false);
+  const [avatars, setAvatars] = useState({});
 
   useEffect(() => {
     setMounted(true);
+    async function fetchAvatars() {
+      const newAvatars = {};
+      for (const artist of leaderboardData) {
+        try {
+          const res = await fetch(`https://discoveryprovider3.audius.co/v1/users/${artist.handle}?app_name=leaderboard`);
+          const data = await res.json();
+          const profilePic = data?.data?.[0]?.profile_picture?.['150x150'];
+          if (profilePic) newAvatars[artist.handle] = profilePic;
+        } catch (err) {
+          console.warn("Error fetching avatar for:", artist.handle);
+        }
+      }
+      setAvatars(newAvatars);
+    }
+    fetchAvatars();
   }, []);
 
   return (
@@ -103,30 +120,30 @@ export default function Leaderboard() {
       className={`font-sans min-h-screen px-4 py-8 transition-colors duration-300 ${darkMode ? "bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-800 text-white" : "bg-white text-black"}`}
     >
       <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold tracking-wide">🎷 Audius Leaderboard - {season}
-          </h1>
-          <div className="flex items-center gap-2">
-            <span className="text-sm">Light</span>
-            <Switch checked={darkMode} onCheckedChange={() => setDarkMode(!darkMode)} />
-            <span className="text-sm">Dark</span>
+        <div className="sticky top-0 z-20 bg-inherit backdrop-blur-sm pb-4">
+          <div className="flex justify-between items-center">
+            <h1 className="text-3xl font-bold tracking-wide">🎷 Audius Leaderboard - {season}</h1>
+            <div className="flex items-center gap-2">
+              <span className="text-sm">Light</span>
+              <Switch checked={darkMode} onCheckedChange={() => setDarkMode(!darkMode)} />
+              <span className="text-sm">Dark</span>
+            </div>
           </div>
-        </div>
-
-        <div className="flex justify-start">
-          <Select value={season} onValueChange={(val) => setSeason(val)}>
-            <SelectTrigger
-              className={`w-32 border rounded px-3 py-2 ${darkMode ? "bg-black text-white border-white/20" : "bg-white text-black border-black/20"}`}
-            >
-              <SelectValue placeholder="Season" />
-            </SelectTrigger>
-            <SelectContent
-              className={`absolute z-50 mt-1 rounded shadow-lg border ${darkMode ? "bg-black text-white border-white/10" : "bg-white text-black border-black/10"}`}
-            >
-              <SelectItem value="S1">Season 1</SelectItem>
-              <SelectItem value="S2">Season 2</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="flex justify-start mt-2 relative">
+            <Select value={season} onValueChange={(val) => setSeason(val)}>
+              <SelectTrigger
+                className={`w-32 border rounded px-3 py-2 ${darkMode ? "bg-black text-white border-white/20" : "bg-white text-black border-black/20"}`}
+              >
+                <SelectValue placeholder="Season" />
+              </SelectTrigger>
+              <SelectContent
+                className={`absolute mt-1 rounded shadow-lg border ${darkMode ? "bg-black text-white border-white/10" : "bg-white text-black border-black/10"}`}
+              >
+                <SelectItem value="S1">Season 1</SelectItem>
+                <SelectItem value="S2">Season 2</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         <ScrollArea className="h-[70vh]">
@@ -135,7 +152,7 @@ export default function Leaderboard() {
               leaderboardData.map((artist, idx) => (
                 <Card
                   key={artist.rank}
-                  className="border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 transform hover:scale-[1.01] hover:border-purple-500/40 hover:shadow-lg"
+                  className="border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 transform hover:scale-[1.01] hover:border-purple-500/40 hover:shadow-[0_0_10px_rgba(168,85,247,0.3)]"
                   style={{
                     animation: `fadeInUp 0.3s ease ${idx * 0.05}s forwards`,
                     opacity: 0,
@@ -144,9 +161,19 @@ export default function Leaderboard() {
                   <CardContent className="flex items-center justify-between p-4">
                     <div className="flex items-center gap-4">
                       <div className="text-xl font-bold w-6 text-right">{artist.rank}</div>
-                      <Avatar>
-                        <AvatarFallback>{artist.artist.charAt(0)}</AvatarFallback>
-                      </Avatar>
+                      {avatars[artist.handle] ? (
+                        <Image
+                          src={avatars[artist.handle]}
+                          alt={artist.artist}
+                          width={40}
+                          height={40}
+                          className="rounded-full"
+                        />
+                      ) : (
+                        <Avatar>
+                          <AvatarFallback>{artist.artist.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                      )}
                       <div>
                         <div className="text-lg font-semibold">
                           <a
