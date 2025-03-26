@@ -13,6 +13,19 @@ import {
   SelectValue,
 } from "../components/ui/select";
 import fetchAudiusUser from "../lib/fetchAudiusUser"; // import updated function
+import SelfReportForm from "../components/SelfReportForm";
+import Leaderboard from "../components/Leaderboard";
+
+export default function Home() {
+  return (
+    <div>
+      <h1>Welcome to the Audius Leaderboard</h1>
+      <SelfReportForm />
+      <Leaderboard />
+    </div>
+  );
+}
+
 
 const leaderboardData = [
   {
