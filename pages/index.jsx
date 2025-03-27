@@ -12,9 +12,89 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
+<<<<<<< HEAD
 import { Transition } from "@headlessui/react";
 import fetchAudiusUser from "../lib/fetchAudiusUser";
 import SelfReportForm from "../components/SelfReportForm";
+=======
+import fetchAudiusUser from "../lib/fetchAudiusUser";
+
+const leaderboardData = [
+  {
+    rank: 1,
+    artist: "Broey.",
+    handle: "broeybeats",
+    score: 96.3,
+    top5: 2,
+    accolades: ["🏇 Season Winner", "🔥 2x Top 5"],
+  },
+  {
+    rank: 2,
+    artist: "chillhopmusic",
+    handle: "chillhopmusic",
+    score: 78.9,
+    top5: 1,
+    accolades: ["🥈 Runner-Up", "🔥 Top 5"],
+  },
+  {
+    rank: 3,
+    artist: "dreameaterism",
+    handle: "dreameaterism",
+    score: 72.4,
+    top5: 0,
+    accolades: ["🚀 Breakout Artist"],
+  },
+  {
+    rank: 4,
+    artist: "sadboysnow",
+    handle: "sadboysnow",
+    score: 70.1,
+    top5: 1,
+  },
+  {
+    rank: 5,
+    artist: "phuture",
+    handle: "phuture",
+    score: 68.8,
+    top5: 0,
+  },
+  {
+    rank: 6,
+    artist: "underbelly",
+    handle: "underbelly",
+    score: 52.5,
+    top5: 0,
+  },
+  {
+    rank: 7,
+    artist: "ellzo",
+    handle: "ellzoofficial",
+    score: 50.7,
+    top5: 0,
+  },
+  {
+    rank: 8,
+    artist: "laxcity",
+    handle: "laxcitymusic",
+    score: 49.2,
+    top5: 0,
+  },
+  {
+    rank: 9,
+    artist: "aedhus",
+    handle: "aedhusmusic",
+    score: 47.8,
+    top5: 0,
+  },
+  {
+    rank: 10,
+    artist: "manhattanbeats",
+    handle: "manhattanbeats",
+    score: 47.1,
+    top5: 0,
+  },
+];
+>>>>>>> 3a6bcb3c1420f6fbdbee0d05576d5080291177cf
 
 export default function Leaderboard() {
   // Theme & UI states
@@ -68,6 +148,7 @@ export default function Leaderboard() {
       if (leaderboardData.length === 0) return;
       const imageMap = {};
       for (const artist of leaderboardData) {
+<<<<<<< HEAD
         try {
           const user = await fetchAudiusUser(artist.handle);
           if (user?.profile_picture) {
@@ -82,6 +163,19 @@ export default function Leaderboard() {
           }
         } catch (err) {
           console.error(`Error fetching profile image for ${artist.handle}`, err);
+=======
+        const user = await fetchAudiusUser(artist.handle);
+        console.log("Fetched user:", artist.handle, user);
+        if (user?.profile_picture) {
+          if (
+            typeof user.profile_picture === "object" &&
+            user.profile_picture['150x150']
+          ) {
+            imageMap[artist.handle] = user.profile_picture['150x150'];
+          } else if (typeof user.profile_picture === "string") {
+            imageMap[artist.handle] = user.profile_picture;
+          }
+>>>>>>> 3a6bcb3c1420f6fbdbee0d05576d5080291177cf
         }
       }
       setProfileImages(imageMap);
