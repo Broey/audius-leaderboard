@@ -1,0 +1,17 @@
+-- CreateTable
+CREATE TABLE "Badge" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL,
+    "description" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- CreateTable
+CREATE TABLE "BadgeAssignment" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "baselineId" INTEGER NOT NULL,
+    "badgeId" INTEGER NOT NULL,
+    "assignedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "BadgeAssignment_baselineId_fkey" FOREIGN KEY ("baselineId") REFERENCES "Baseline" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "BadgeAssignment_badgeId_fkey" FOREIGN KEY ("badgeId") REFERENCES "Badge" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);

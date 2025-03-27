@@ -1,0 +1,11 @@
+-- CreateTable
+CREATE TABLE "Baseline" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "handle" TEXT NOT NULL,
+    "season" TEXT NOT NULL,
+    "streams" INTEGER NOT NULL DEFAULT 0,
+    "likes" INTEGER NOT NULL DEFAULT 0,
+    "reposts" INTEGER NOT NULL DEFAULT 0,
+    "comments" INTEGER NOT NULL DEFAULT 0,
+    "baselineSetAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

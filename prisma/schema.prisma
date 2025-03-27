@@ -1,0 +1,40 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Baseline {
+  id            Int              @id @default(autoincrement())
+  handle        String
+  season        String
+  streams       Int              @default(0)
+  likes         Int              @default(0)
+  reposts       Int              @default(0)
+  comments      Int              @default(0)
+  baselineSetAt DateTime         @default(now())
+
+  badgeAssignments BadgeAssignment[]
+}
+
+model Badge {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+
+  badgeAssignments BadgeAssignment[]
+}
+
+model BadgeAssignment {
+  id         Int      @id @default(autoincrement())
+  baselineId Int
+  badgeId    Int
+  assignedAt DateTime @default(now())
+
+  baseline   Baseline @relation(fields: [baselineId], references: [id])
+  badge      Badge    @relation(fields: [badgeId], references: [id])
+}

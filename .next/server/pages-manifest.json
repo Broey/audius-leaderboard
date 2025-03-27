@@ -1,0 +1,9 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/": "pages/index.js",
+  "/api/getLeaderboard": "pages/api/getLeaderboard.js",
+  "/api/get-submissions": "pages/api/get-submissions.js",
+  "/api/submit-handle": "pages/api/submit-handle.js"
+}
