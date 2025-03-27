@@ -12,107 +12,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-<<<<<<< HEAD
 import { Transition } from "@headlessui/react";
 import fetchAudiusUser from "../lib/fetchAudiusUser";
 import SelfReportForm from "../components/SelfReportForm";
-=======
-import fetchAudiusUser from "../lib/fetchAudiusUser";
-
-const leaderboardData = [
-  {
-    rank: 1,
-    artist: "Broey.",
-    handle: "broeybeats",
-    score: 96.3,
-    top5: 2,
-    accolades: ["🏇 Season Winner", "🔥 2x Top 5"],
-  },
-  {
-    rank: 2,
-    artist: "chillhopmusic",
-    handle: "chillhopmusic",
-    score: 78.9,
-    top5: 1,
-    accolades: ["🥈 Runner-Up", "🔥 Top 5"],
-  },
-  {
-    rank: 3,
-    artist: "dreameaterism",
-    handle: "dreameaterism",
-    score: 72.4,
-    top5: 0,
-    accolades: ["🚀 Breakout Artist"],
-  },
-  {
-    rank: 4,
-    artist: "sadboysnow",
-    handle: "sadboysnow",
-    score: 70.1,
-    top5: 1,
-  },
-  {
-    rank: 5,
-    artist: "phuture",
-    handle: "phuture",
-    score: 68.8,
-    top5: 0,
-  },
-  {
-    rank: 6,
-    artist: "underbelly",
-    handle: "underbelly",
-    score: 52.5,
-    top5: 0,
-  },
-  {
-    rank: 7,
-    artist: "ellzo",
-    handle: "ellzoofficial",
-    score: 50.7,
-    top5: 0,
-  },
-  {
-    rank: 8,
-    artist: "laxcity",
-    handle: "laxcitymusic",
-    score: 49.2,
-    top5: 0,
-  },
-  {
-    rank: 9,
-    artist: "aedhus",
-    handle: "aedhusmusic",
-    score: 47.8,
-    top5: 0,
-  },
-  {
-    rank: 10,
-    artist: "manhattanbeats",
-    handle: "manhattanbeats",
-    score: 47.1,
-    top5: 0,
-  },
-];
->>>>>>> 3a6bcb3c1420f6fbdbee0d05576d5080291177cf
 
 export default function Leaderboard() {
-  // Theme & UI states
   const [darkMode, setDarkMode] = useState(true);
   const [season, setSeason] = useState("S1");
   const [mounted, setMounted] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
-
-  // For storing the dynamic leaderboard data from /api/getLeaderboard
   const [leaderboardData, setLeaderboardData] = useState([]);
-
-  // For storing profile images once we fetch them from Audius
   const [profileImages, setProfileImages] = useState({});
-
-  // For user submissions from the old form approach
   const [submissions, setSubmissions] = useState([]);
 
-  // Fetch submissions on mount
   useEffect(() => {
     async function loadSubs() {
       const res = await fetch("/api/get-submissions");
@@ -122,19 +34,15 @@ export default function Leaderboard() {
     loadSubs();
   }, []);
 
-  // Fetch the dynamic leaderboard on mount or when season changes
   useEffect(() => {
     setMounted(true);
     fetchLeaderboard();
   }, [season]);
 
-  // Fetch leaderboard data from /api/getLeaderboard
   async function fetchLeaderboard() {
     try {
       const res = await fetch(`/api/getLeaderboard?season=${season}`);
-      if (!res.ok) {
-        throw new Error("Failed to fetch leaderboard");
-      }
+      if (!res.ok) throw new Error("Failed to fetch leaderboard");
       const data = await res.json();
       setLeaderboardData(data);
     } catch (err) {
@@ -142,13 +50,11 @@ export default function Leaderboard() {
     }
   }
 
-  // Optionally fetch profile images for each artist in the leaderboard
   useEffect(() => {
     async function loadProfileImages() {
       if (leaderboardData.length === 0) return;
       const imageMap = {};
       for (const artist of leaderboardData) {
-<<<<<<< HEAD
         try {
           const user = await fetchAudiusUser(artist.handle);
           if (user?.profile_picture) {
@@ -163,19 +69,6 @@ export default function Leaderboard() {
           }
         } catch (err) {
           console.error(`Error fetching profile image for ${artist.handle}`, err);
-=======
-        const user = await fetchAudiusUser(artist.handle);
-        console.log("Fetched user:", artist.handle, user);
-        if (user?.profile_picture) {
-          if (
-            typeof user.profile_picture === "object" &&
-            user.profile_picture['150x150']
-          ) {
-            imageMap[artist.handle] = user.profile_picture['150x150'];
-          } else if (typeof user.profile_picture === "string") {
-            imageMap[artist.handle] = user.profile_picture;
-          }
->>>>>>> 3a6bcb3c1420f6fbdbee0d05576d5080291177cf
         }
       }
       setProfileImages(imageMap);
@@ -183,13 +76,10 @@ export default function Leaderboard() {
     loadProfileImages();
   }, [leaderboardData]);
 
-  // Fetch user submissions
   async function fetchSubmissions() {
     try {
       const res = await fetch("/api/get-submissions");
-      if (!res.ok) {
-        throw new Error("Failed to fetch submissions");
-      }
+      if (!res.ok) throw new Error("Failed to fetch submissions");
       const data = await res.json();
       setSubmissions(data);
     } catch (err) {
@@ -197,21 +87,18 @@ export default function Leaderboard() {
     }
   }
 
-  // Called after form submission success from SelfReportForm
   const handleFormSuccess = () => {
     setShowLeaderboard(true);
-    fetchSubmissions(); // Refresh the submissions list
-    fetchLeaderboard(); // Refresh the leaderboard data
+    fetchSubmissions();
+    fetchLeaderboard();
   };
 
-  // Build the dynamic leaderboard UI
   const leaderboardUI = (
     <div
       className={`max-w-4xl mx-auto px-4 sm:px-6 py-6 transition-colors duration-300 ${
         darkMode ? "bg-black text-white" : "bg-white text-black"
       }`}
     >
-      {/* Top Bar: Season Select, Title, Light/Dark Switch */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
         <div className="mb-4 sm:mb-0 relative z-10">
           <Select value={season} onValueChange={(val) => setSeason(val)}>
@@ -247,12 +134,10 @@ export default function Leaderboard() {
         </div>
       </div>
 
-      {/* Scrollable area for the leaderboard cards */}
       <ScrollArea className="h-[70vh]">
         <div className="space-y-4">
           {mounted &&
             leaderboardData.map((artist, index) => {
-              // Normalize the handle for display purposes (remove any "@" if present)
               const displayHandle = artist.handle.replace(/^@/, "");
               return (
                 <Card
@@ -261,12 +146,9 @@ export default function Leaderboard() {
                 >
                   <div className="flex items-center justify-between p-4">
                     <div className="flex items-center gap-4">
-                      {/* Rank is based on array index + 1 */}
                       <div className="text-xl font-bold w-6 text-right">
                         {index + 1}
                       </div>
-
-                      {/* Profile image (if fetched) */}
                       <Avatar>
                         {profileImages[artist.handle] ? (
                           <img
@@ -282,8 +164,6 @@ export default function Leaderboard() {
                           </AvatarFallback>
                         )}
                       </Avatar>
-
-                      {/* Artist info */}
                       <div>
                         <div className="text-lg font-semibold">
                           <a
@@ -315,7 +195,6 @@ export default function Leaderboard() {
         </div>
       </ScrollArea>
 
-      {/* User Submissions Section */}
       <section className="mt-8">
         <h2 className="text-2xl font-bold mb-4">User Submissions</h2>
         {submissions.length === 0 ? (
@@ -347,7 +226,6 @@ export default function Leaderboard() {
 
   return (
     <>
-      {/* Transition for the SelfReportForm (gate) */}
       <Transition
         show={!showLeaderboard}
         enter="transition-opacity duration-500"
@@ -362,7 +240,6 @@ export default function Leaderboard() {
         </div>
       </Transition>
 
-      {/* Transition for the leaderboard UI */}
       <Transition
         show={showLeaderboard}
         enter="transition-opacity duration-500"
